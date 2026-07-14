@@ -114,7 +114,7 @@ export default function DashboardPage() {
               Install the package
             </h2>
             <div className="mt-4 flex flex-col gap-2 border border-line bg-neutral-950 p-6 font-mono-tight text-sm">
-              <span className="text-paper">npm install signflow</span>
+              <span className="text-paper">npm install signflow-core</span>
               <span className="text-mist">
                 published from{' '}
                 <a

@@ -6,19 +6,22 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SNIPPET = `import { SignaturePad } from 'signflow';
+const FILENAME = 'capture.ts';
 
-export function AgreementPage() {
-  return (
-    <SignaturePad
-      publicKey="pk_live_9f2c..."
-      pageName="master-services-agreement"
-      signerId="client@example.com"
-      collectLocation
-      onSubmit={(record) => console.log(record.id)}
-    />
-  );
-}`;
+const SNIPPET = `import { SignatureCapture, SignClient } from 'signflow-core';
+
+const capture = new SignatureCapture({ element: canvasEl });
+// ...user draws...
+
+const client = new SignClient({ apiKey: 'pk_live_9f2c...' });
+await client.submitSignature({
+  signature: capture.toSvgPath(),
+  location: null,
+  deviceData: capture.getDeviceData(),
+  siteUrl: location.href,
+  pageName: 'master-services-agreement',
+  createdBy: 'client@example.com',
+});`;
 
 const LINES = SNIPPET.split('\n');
 
@@ -59,7 +62,7 @@ export function CodeShowcase() {
         <span className="h-2.5 w-2.5 rounded-full bg-neutral-700" />
         <span className="h-2.5 w-2.5 rounded-full bg-neutral-700" />
         <span className="h-2.5 w-2.5 rounded-full bg-neutral-700" />
-        <span className="ml-3 text-xs text-mist">AgreementPage.tsx</span>
+        <span className="ml-3 text-xs text-mist">{FILENAME}</span>
       </div>
       {LINES.map((line, i) => (
         <div key={i} className="code-line whitespace-pre text-paper/90">

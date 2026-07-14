@@ -32,7 +32,7 @@ export default function Home() {
                 href="#quickstart"
                 className="border border-accent bg-accent px-5 py-2.5 font-mono-tight text-sm text-ink transition-transform hover:-translate-y-0.5"
               >
-                npm install signflow
+                npm install signflow-core
               </a>
               <a
                 href="#features"
@@ -67,7 +67,9 @@ export default function Home() {
             <h2 className="font-mono-tight text-sm uppercase tracking-[0.2em] text-mist">
               Quick start
             </h2>
-            <p className="mt-3 text-2xl text-paper">Four lines to a working signature pad.</p>
+            <p className="mt-3 text-2xl text-paper">
+              A few lines to capture and submit a signature.
+            </p>
             <div className="mt-10">
               <CodeShowcase />
             </div>
