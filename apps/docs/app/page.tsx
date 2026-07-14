@@ -2,6 +2,7 @@ import { CodeShowcase } from '@/components/CodeShowcase';
 import { FeatureGrid } from '@/components/FeatureGrid';
 import { Footer } from '@/components/Footer';
 import { NavBar } from '@/components/NavBar';
+import { RepoStats } from '@/components/RepoStats';
 import { SignatureHero } from '@/components/SignatureHero';
 
 export default function Home() {
@@ -15,6 +16,8 @@ export default function Home() {
             <span className="font-mono-tight text-xs uppercase tracking-[0.2em] text-accent">
               SignFlow · e-signature sdk · self-hosted
             </span>
+
+            <RepoStats />
             <h1 className="max-w-3xl text-4xl font-medium leading-[1.05] tracking-tight text-paper sm:text-6xl">
               Capture legally-relevant signatures,{' '}
               <span className="text-mist">not just a scribble.</span>
