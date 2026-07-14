@@ -3,8 +3,8 @@
 Self-hosted e-signature SDK (repository: `sign-agreement-package`). See
 [apps/docs](apps/docs) for the marketing site + dashboard, [apps/api](apps/api)
 for the backend, and [packages/core](packages/core) / [packages/react](packages/react)
-for the published SDK. `apps/docs/public/llms.txt` describes the product for
-LLM crawlers per the [llms.txt](https://llmstxt.org) convention.
+for the published SDK.
+
 
 ## Local development
 
