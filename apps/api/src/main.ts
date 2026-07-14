@@ -26,7 +26,10 @@ async function bootstrap() {
   );
 
   const port = process.env.PORT ?? 4254;
-  await app.listen(port);
+  // Bind explicitly to 0.0.0.0 — without a host, some container network
+  // setups (Railway included) don't route external/proxy traffic to the
+  // process even though it's running fine internally.
+  await app.listen(port, '0.0.0.0');
 }
 
 bootstrap();
