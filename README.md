@@ -5,6 +5,16 @@ Self-hosted e-signature SDK (repository: `sign-agreement-package`). See
 for the backend, and [packages/core](packages/core) / [packages/react](packages/react)
 for the published SDK.
 
+## What SignFlow does
+
+SignFlow helps teams build and run their own e-signature workflow.
+
+- Create and manage signature projects through a web dashboard.
+- Capture smooth, high-quality signatures in browser or React apps.
+- Store and serve signature/project data with a self-hosted API.
+- Integrate signing into other products using publishable SDK packages.
+- Support API-key and OAuth-based authentication flows.
+
 
 ## Local development
 
