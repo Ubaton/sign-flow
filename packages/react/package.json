@@ -2,7 +2,29 @@
   "name": "signflow",
   "version": "0.0.1",
   "description": "React <SignaturePad /> component for SignFlow, a self-hosted e-signature SDK",
+  "keywords": [
+    "signature",
+    "e-signature",
+    "esignature",
+    "digital-signature",
+    "signature-pad",
+    "react",
+    "react-component",
+    "docusign-alternative",
+    "hellosign-alternative",
+    "typescript",
+    "signflow"
+  ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ubaton/sign-flow.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://github.com/Ubaton/sign-flow#readme",
+  "bugs": {
+    "url": "https://github.com/Ubaton/sign-flow/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

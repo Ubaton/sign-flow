@@ -1,8 +1,32 @@
 {
   "name": "signflow-core",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Framework-agnostic signature capture logic and API client for SignFlow",
+  "keywords": [
+    "signature",
+    "e-signature",
+    "esignature",
+    "digital-signature",
+    "signature-pad",
+    "signature-capture",
+    "svg",
+    "canvas",
+    "pointer-events",
+    "docusign-alternative",
+    "hellosign-alternative",
+    "typescript",
+    "signflow"
+  ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ubaton/sign-flow.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/Ubaton/sign-flow#readme",
+  "bugs": {
+    "url": "https://github.com/Ubaton/sign-flow/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,7 +36,9 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
