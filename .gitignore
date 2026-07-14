@@ -1,0 +1,15 @@
+node_modules/
+dist/
+build/
+.turbo/
+*.log
+.DS_Store
+coverage/
+*.tsbuildinfo
+target/
+pkg/
+
+# Environment Variables
+.env.example
+.env
+.env.local

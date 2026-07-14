@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1223 334" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;">
+    <g transform="matrix(5.555556,0,0,5.555556,0,0)">
+        <g transform="matrix(0.5,0,0,0.5,-23,-35)">
+            <path d="M180,96L180,164C180,178.35 168.35,190 154,190L86,190C71.65,190 60,178.35 60,164L60,96C60,81.65 71.65,70 86,70L154,70C168.35,70 180,81.65 180,96Z" style="fill:rgb(26,26,26);"/>
+        </g>
+        <g transform="matrix(0.5,0,0,0.5,-23,-35)">
+            <path d="M85,145C95,118.333 105,118.333 115,145C125,171.667 135,171.667 145,145C149.667,128.333 154.667,128.333 160,145C165.333,161.667 170.333,146.667 175,100" style="fill:none;fill-rule:nonzero;stroke:rgb(200,255,92);stroke-width:6px;"/>
+        </g>
+        <g transform="matrix(0.5,0,0,0.5,-23,-35)">
+            <circle cx="175" cy="100" r="5" style="fill:rgb(200,255,92);"/>
+        </g>
+        <g transform="matrix(0.5,0,0,0.5,82,37.5)">
+            <text x="0px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:64px;fill:rgb(17,17,17);">Sign</text>
+            <text x="128.094px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:64px;fill:rgb(143,204,31);">Flow</text>
+        </g>
+        <g transform="matrix(0.5,0,0,0.5,83,52.5)">
+            <text x="0px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:16px;fill:rgb(102,102,102);">sign · verify · ship</text>
+        </g>
+    </g>
+</svg>

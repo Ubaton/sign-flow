@@ -1,0 +1,42 @@
+{
+  "name": "@ubaton-ray/api",
+  "version": "0.0.1",
+  "private": true,
+  "description": "NestJS backend: OAuth, project/key management, signature CRUD",
+  "scripts": {
+    "build": "nest build",
+    "dev": "nest start --watch",
+    "start": "node dist/main.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint src",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.4.0",
+    "@nestjs/core": "^10.4.0",
+    "@nestjs/config": "^3.2.0",
+    "@nestjs/platform-express": "^10.4.0",
+    "@nestjs/passport": "^10.0.3",
+    "@nestjs/typeorm": "^10.0.2",
+    "typeorm": "^0.3.20",
+    "pg": "^8.12.0",
+    "passport": "^0.7.0",
+    "passport-github2": "^0.1.12",
+    "passport-google-oauth20": "^2.0.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "express-session": "^1.18.0",
+    "uuid": "^10.0.0",
+    "class-validator": "^0.14.1",
+    "class-transformer": "^0.5.1"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.4.0",
+    "@types/express-session": "^1.18.0",
+    "@types/passport-github2": "^1.2.9",
+    "@types/passport-google-oauth20": "^2.0.14",
+    "@types/uuid": "^10.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

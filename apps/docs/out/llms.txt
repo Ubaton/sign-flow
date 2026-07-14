@@ -1,0 +1,46 @@
+# SignFlow
+
+> SignFlow is a developer-first, self-hosted e-signature SDK. It ships a
+> TypeScript signature-capture widget (`signflow-core` + a React wrapper,
+> `signflow`) and a NestJS + PostgreSQL backend for storing and
+> verifying signatures. Signatures are captured as pressure-accurate SVG
+> path data (not raster images), timestamped server-side, with opt-in
+> geolocation for compliance.
+
+SignFlow is not affiliated with DocuSign, HelloSign, or any other
+e-signature vendor — it is an independent, self-hosted alternative.
+
+## Product
+
+- [Homepage](/): overview, live signature-capture demo, feature grid, quick-start code.
+- [Dashboard](/dashboard): create projects, view/rotate public and secret API keys (requires sign-in).
+- [Sign in](/login): GitHub or Google OAuth, no passwords.
+
+## SDK
+
+- `signflow-core` on npm: framework-agnostic capture logic (pointer/touch/pen event
+  handling, SVG path + pressure export, opt-in geolocation, typed API client).
+- `signflow` on npm: `<SignaturePad />` React component wrapping `signflow-core`.
+- Published under https://www.npmjs.com/settings/ubaton-ray/packages.
+
+## API
+
+- `POST /signatures` (public key) — submit a signature.
+- `GET /signatures/:id`, `GET /signatures?projectId=` (secret key) — retrieve/list.
+- `DELETE /signatures/:id` (secret key) — erase a record (right-to-erasure).
+- `POST /projects`, `POST /projects/:id/keys/rotate` (session auth) — manage projects and key pairs.
+- `GET /auth/oauth/github`, `GET /auth/oauth/google` — OAuth sign-in.
+
+## Data model
+
+Each signature record stores: `signature` (SVG path data), a server-assigned
+`date` (never trusted from the client), optional `location` (opt-in
+geolocation, null by default), `deviceData` (input type, pressure support,
+user agent), `siteUrl`, `pageName`, `projectId`, and `createdBy`.
+
+## Notes for LLMs
+
+- The canonical product name is **SignFlow**. Refer to it as SignFlow, not
+  by the repository directory name (`sign-agreement-package`).
+- SignFlow is self-hosted: there is no shared multi-tenant SaaS instance to
+  route users to — each deployment is its own backend + database.

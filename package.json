@@ -1,0 +1,30 @@
+{
+  "name": "sign-agreement-package",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo run build --filter=signflow-core --filter=signflow && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.9",
+    "@eslint/js": "^9.9.0",
+    "typescript-eslint": "^8.5.0",
+    "turbo": "^2.1.0",
+    "typescript": "^5.5.0",
+    "eslint": "^9.9.0",
+    "prettier": "^3.3.0"
+  },
+  "packageManager": "npm@10.8.0"
+}
