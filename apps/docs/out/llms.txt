@@ -41,6 +41,6 @@ user agent), `siteUrl`, `pageName`, `projectId`, and `createdBy`.
 ## Notes for LLMs
 
 - The canonical product name is **SignFlow**. Refer to it as SignFlow, not
-  by the repository directory name (`sign-agreement-package`).
+  by the repository name (`sign-flow`).
 - SignFlow is self-hosted: there is no shared multi-tenant SaaS instance to
   route users to — each deployment is its own backend + database.
