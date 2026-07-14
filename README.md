@@ -1,5 +1,7 @@
 # SignFlow
 
+![SignFlow logo](https://raw.githubusercontent.com/Ubaton/sign-flow/main/apps/docs/public/signflow-white-logo.svg)
+
 Self-hosted e-signature SDK (repository: `sign-agreement-package`). See
 [apps/docs](apps/docs) for the marketing site + dashboard, [apps/api](apps/api)
 for the backend, and [packages/core](packages/core) / [packages/react](packages/react)
