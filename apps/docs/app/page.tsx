@@ -1,9 +1,10 @@
-import { CodeShowcase } from '@/components/CodeShowcase';
+import { CopyableCommand } from '@/components/CopyableCommand';
 import { FeatureGrid } from '@/components/FeatureGrid';
 import { Footer } from '@/components/Footer';
 import { NavBar } from '@/components/NavBar';
 import { RepoStats } from '@/components/RepoStats';
 import { SignatureHero } from '@/components/SignatureHero';
+import { TerminalDemo } from '@/components/TerminalDemo';
 
 export default function Home() {
   return (
@@ -28,15 +29,16 @@ export default function Home() {
               your data, verify it server-side, ship it in an afternoon.
             </p>
             <div className="flex flex-wrap items-center gap-4">
+              <CopyableCommand command="npm install signflow-core" />
               <a
-                href="#quickstart"
-                className="border border-accent bg-accent px-5 py-2.5 font-mono-tight text-sm text-ink transition-transform hover:-translate-y-0.5"
+                href="/demo"
+                className="border border-accent bg-accent px-5 py-2.5 font-mono-tight text-sm text-ink transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
-                npm install signflow-core
+                Try the live demo
               </a>
               <a
                 href="#features"
-                className="border border-line px-5 py-2.5 font-mono-tight text-sm text-paper transition-colors hover:border-accent hover:text-accent"
+                className="border border-line px-5 py-2.5 font-mono-tight text-sm text-paper transition-colors hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 See capabilities
               </a>
@@ -71,7 +73,7 @@ export default function Home() {
               A few lines to capture and submit a signature.
             </p>
             <div className="mt-10">
-              <CodeShowcase />
+              <TerminalDemo />
             </div>
           </div>
         </section>

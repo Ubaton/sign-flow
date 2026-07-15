@@ -1,9 +1,14 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
-// Set this to the real production domain before deploying — it's used to
-// build absolute canonical/OG URLs. Falls back to localhost for local builds.
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+// Falls back to the real production domain, not localhost — a missing env
+// var must never silently break canonical/OG URLs in a live deployment.
+// Override with NEXT_PUBLIC_SITE_URL for previews/staging.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.NODE_ENV === 'production'
+    ? 'https://sign-flow-docs.vercel.app'
+    : 'http://localhost:3000');
 
 const title = 'SignFlow — self-hosted e-signature SDK for developers';
 const description =
@@ -46,13 +51,13 @@ export const metadata: Metadata = {
     siteName: 'SignFlow',
     title,
     description,
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'SignFlow' }],
+    // Image comes from app/opengraph-image.tsx (Next's file convention) —
+    // generated dynamically, not a static asset that can silently go stale.
   },
   twitter: {
     card: 'summary_large_image',
     title,
     description,
-    images: ['/og.png'],
   },
 };
 
