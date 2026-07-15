@@ -1,4 +1,7 @@
-export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4254';
+// Relative — proxied to the real API origin server-side via next.config.mjs's
+// rewrites(), so the browser only ever sees this app's own origin. Keeps
+// auth cookies same-site regardless of where the API is actually hosted.
+export const API_URL = '/api';
 
 export interface CurrentUser {
   id: string;

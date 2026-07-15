@@ -48,13 +48,15 @@ services:
     build:
       context: .
       dockerfile: apps/docs/Dockerfile
-      args:
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4254}
     restart: unless-stopped
     depends_on:
       - api
+    environment:
+      # Runtime env now, not a build arg — apps/docs/next.config.mjs reads
+      # this server-side via rewrites(), so it can change without a rebuild.
+      API_ORIGIN: http://api:4254
     ports:
-      - '3000:80'
+      - '3000:3000'
 
 volumes:
   pg-data:

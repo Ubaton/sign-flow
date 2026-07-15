@@ -1,11 +1,10 @@
 # Build context must be the repo root:
-#   docker build -f apps/docs/Dockerfile \
-#     --build-arg NEXT_PUBLIC_API_URL=https://api.example.com \
-#     -t sign-pkg-docs .
+#   docker build -f apps/docs/Dockerfile -t sign-pkg-docs .
+#   docker run -p 3000:3000 -e API_ORIGIN=https://your-api.example.com sign-pkg-docs
 #
-# Next.js static export inlines NEXT_PUBLIC_* vars into the JS bundle at
-# `next build` time — there is no server to read them from at runtime, so
-# they MUST be passed as build args, not env vars at `docker run`.
+# API_ORIGIN is read server-side at runtime (next.config.mjs's rewrites()),
+# not baked in at build time — unlike the old static-export setup, changing
+# it only needs a container restart, not a rebuild.
 
 FROM node:20-alpine AS base
 # The npm bundled with node:20-alpine has a known bug ("Exit handler never
@@ -28,12 +27,13 @@ COPY --from=pruner /app/out/json/ .
 RUN npm pkg set packageManager="npm@10.8.0"
 RUN npm ci || npm ci
 COPY --from=pruner /app/out/full/ .
-
-ARG NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 RUN npx turbo run build --filter=@ubaton-ray/docs
 
-FROM nginx:1.27-alpine AS runner
-COPY apps/docs/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=installer /app/apps/docs/out /usr/share/nginx/html
-EXPOSE 80
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=installer /app/apps/docs/.next/standalone ./
+COPY --from=installer /app/apps/docs/.next/static ./apps/docs/.next/static
+COPY --from=installer /app/apps/docs/public ./apps/docs/public
+EXPOSE 3000
+CMD ["node", "apps/docs/server.js"]

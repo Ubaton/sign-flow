@@ -47,14 +47,13 @@ async function bootstrap() {
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
-        // The frontend and API live on entirely different domains (e.g.
-        // vercel.app vs railway.app) — SameSite=Lax blocks the cookie on
-        // the dashboard's cross-site fetch('/auth/me'), even though it's
-        // set fine during the OAuth redirect chain. None is required for
-        // cross-site fetch, and it mandates Secure, which is already true
-        // in production.
+        // The frontend proxies /api/* to this server (see apps/docs's
+        // next.config.mjs rewrites()), so every request is same-origin
+        // from the browser's perspective — plain Lax is correct and safer
+        // than None, which some browsers reject anyway for cross-site use
+        // regardless of the Secure flag.
         secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        sameSite: 'lax',
       },
     }),
   );
