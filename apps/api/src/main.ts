@@ -54,10 +54,12 @@ async function bootstrap() {
   );
 
   const port = process.env.PORT ?? 4254;
+  logger.log(`Resolved PORT env var: ${JSON.stringify(process.env.PORT)} — binding to ${port} on 0.0.0.0`);
   // Bind explicitly to 0.0.0.0 — without a host, some container network
   // setups (Railway included) don't route external/proxy traffic to the
   // process even though it's running fine internally.
   await app.listen(port, '0.0.0.0');
+  logger.log(`Listening — app.getUrl() reports: ${await app.getUrl()}`);
 }
 
 bootstrap();
