@@ -24,8 +24,11 @@ RUN npm ci || npm ci
 COPY --from=pruner /app/out/full/ .
 # turbo prune only copies each workspace's own directory — apps/api's
 # tsconfig.json extends the shared root tsconfig.base.json, which lives
-# outside that directory, so it has to be copied in explicitly.
-COPY tsconfig.base.json tsconfig.base.json
+# outside that directory, so it has to be copied in explicitly. Copy it
+# from the pruner stage (which already holds the full context) rather than
+# from the raw build context — some builders (Railway) intermittently fail
+# to resolve root-level context files here when replaying cached layers.
+COPY --from=pruner /app/tsconfig.base.json tsconfig.base.json
 RUN npx turbo run build --filter=@ubaton-ray/api
 
 FROM node:20-alpine AS runner
