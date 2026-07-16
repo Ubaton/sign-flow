@@ -99,7 +99,7 @@ export default function DashboardPage() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h1 className="text-2xl text-paper">Dashboard</h1>
-              <p className="mt-1 text-sm text-mist">Signed in as {user?.email}</p>
+              <p className="mt-1 text-sm text-mist">Signed in as {user?.name ?? user?.email}</p>
             </div>
             <a
               href={logoutUrl()}

@@ -20,6 +20,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
 
     return this.usersService.findOrCreateFromOAuth({
       email,
+      name: profile.displayName || profile.username || null,
       provider: 'github',
       providerId: profile.id,
     });

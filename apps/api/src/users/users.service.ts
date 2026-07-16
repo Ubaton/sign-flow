@@ -13,13 +13,21 @@ export class UsersService {
   /** Finds the user for this OAuth identity, creating one on first login. */
   async findOrCreateFromOAuth(params: {
     email: string;
+    name: string | null;
     provider: OAuthProvider;
     providerId: string;
   }): Promise<UserEntity> {
     const existing = await this.users.findOne({
       where: { provider: params.provider, providerId: params.providerId },
     });
-    if (existing) return existing;
+    if (existing) {
+      // Backfill the name for accounts created before we captured it.
+      if (!existing.name && params.name) {
+        existing.name = params.name;
+        return this.users.save(existing);
+      }
+      return existing;
+    }
 
     const user = this.users.create(params);
     return this.users.save(user);

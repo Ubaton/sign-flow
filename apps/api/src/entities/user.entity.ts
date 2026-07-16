@@ -10,6 +10,10 @@ export class UserEntity {
   @Column({ unique: true })
   email!: string;
 
+  /** Display name or handle from the OAuth provider; may be null if unset. */
+  @Column({ type: 'varchar', nullable: true })
+  name!: string | null;
+
   @Column()
   provider!: OAuthProvider;
 

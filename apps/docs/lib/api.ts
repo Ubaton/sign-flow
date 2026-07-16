@@ -6,6 +6,7 @@ export const API_URL = '/api';
 export interface CurrentUser {
   id: string;
   email: string;
+  name: string | null;
   provider: 'github' | 'google';
 }
 

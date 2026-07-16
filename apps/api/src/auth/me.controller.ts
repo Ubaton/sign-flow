@@ -11,6 +11,11 @@ export class MeController {
   @UseGuards(SessionAuthGuard)
   async me(@Req() req: Request) {
     const user = await this.usersService.findById(req.session.userId!);
-    return { id: user!.id, email: user!.email, provider: user!.provider };
+    return {
+      id: user!.id,
+      email: user!.email,
+      name: user!.name,
+      provider: user!.provider,
+    };
   }
 }
