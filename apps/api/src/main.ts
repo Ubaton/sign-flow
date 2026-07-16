@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, Logger } from '@nestjs/common';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import session from 'express-session';
 import pg from 'pg';
 import connectPgSimple from 'connect-pg-simple';
@@ -9,8 +10,18 @@ import { AppModule } from './app.module.js';
 const { Pool } = pg;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const logger = new Logger('Bootstrap');
+
+  // Trust the reverse proxy in front of us (Railway's edge, and Vercel's
+  // rewrite proxy beyond that). Railway terminates TLS at its edge and
+  // forwards plain HTTP to the container, so without this Express sees
+  // req.secure === false and express-session silently refuses to send the
+  // `Secure` session cookie — the login "succeeds" server-side (session +
+  // user rows get written) but the browser never receives the cookie, so
+  // every subsequent /auth/me is unauthenticated. Trusting X-Forwarded-Proto
+  // lets Express treat the request as secure and set the cookie.
+  app.set('trust proxy', 1);
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.enableCors({
