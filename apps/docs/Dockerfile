@@ -27,6 +27,11 @@ COPY --from=pruner /app/out/json/ .
 RUN npm pkg set packageManager="npm@10.8.0"
 RUN npm ci || npm ci
 COPY --from=pruner /app/out/full/ .
+# The docs app depends on the signflow-core workspace package, whose
+# tsconfig extends the shared root tsconfig.base.json — turbo prune only
+# copies workspace directories, so bring the root config in from the
+# pruner stage (which holds the full context).
+COPY --from=pruner /app/tsconfig.base.json tsconfig.base.json
 RUN npx turbo run build --filter=@ubaton-ray/docs
 
 FROM node:20-alpine AS runner
