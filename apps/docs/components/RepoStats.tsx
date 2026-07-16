@@ -1,11 +1,12 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 const GITHUB_REPO = 'Ubaton/sign-flow';
 // Preferred package first — falls back to the next one that's actually
 // published, so this keeps working if `signflow` isn't live yet.
-const NPM_PACKAGES = ['signflow', 'signflow-core'];
+const NPM_PACKAGES = ['signflow-core', 'signflow-core'];
 
 interface Stats {
   stars: number | null;
@@ -68,6 +69,7 @@ export function RepoStats() {
     <div className="flex flex-wrap items-center gap-3 font-mono-tight text-xs">
       <a
         href={`https://github.com/${GITHUB_REPO}`}
+        target='_blank' rel='noopener noreferrer'
         className="flex items-center gap-1.5 border border-line px-3 py-1.5 text-mist transition-colors hover:border-accent hover:text-paper"
       >
         <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
@@ -77,11 +79,16 @@ export function RepoStats() {
       </a>
       <a
         href={`https://www.npmjs.com/package/${stats.npmPackage}`}
+        target='_blank' rel='noopener noreferrer'
         className="flex items-center gap-1.5 border border-line px-3 py-1.5 text-mist transition-colors hover:border-accent hover:text-paper"
       >
-        <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
-          <path d="M0 3h16v10H8.5v1.5H5.5V13H0V3Zm1.5 1.5v7h2.5v-5.5H6v5.5h1.5v-7h-6Zm8.5 0v7h1.5v-5.5H13v4H11.5v1.5H14.5v-7H10Z" />
-        </svg>
+        <Image
+          src="/sign-flow-npm.svg"
+          alt="npm"
+          width={24}
+          height={24}
+          className="h-4 w-auto"
+        />
         {stats.version === null ? stats.npmPackage : `v${stats.version}`}
       </a>
     </div>

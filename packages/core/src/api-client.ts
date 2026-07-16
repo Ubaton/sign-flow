@@ -12,7 +12,11 @@ export class SignClient {
 
   constructor(options: SignClientOptions) {
     this.apiKey = options.apiKey;
-    this.baseUrl = (options.baseUrl ?? 'https://api.sign-pkg.dev').replace(/\/$/, '');
+    // Defaults to the hosted SignFlow API; override for a self-hosted instance.
+    this.baseUrl = (options.baseUrl ?? 'https://sign-flow-production.up.railway.app').replace(
+      /\/$/,
+      '',
+    );
   }
 
   /** Submit a signature. Requires a public key. */

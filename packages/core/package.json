@@ -1,6 +1,6 @@
 {
   "name": "signflow-core",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Framework-agnostic signature capture logic and API client for SignFlow",
   "keywords": [
     "signature",
