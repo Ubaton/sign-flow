@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import Image from 'next/image';
+import { Logo } from '@/components/ui/Logo';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const NAV_LINKS = [
   { href: '/#features', label: 'Features' },
@@ -38,7 +39,7 @@ export function NavBar() {
     >
       <div className="flex items-center justify-between px-4 py-3 sm:px-6">
         <a href="/" className="inline-flex min-h-11 items-center">
-          <Image src="/signflow-white-logo.svg" alt="SignFlow" width={120} height={40} />
+          <Logo />
         </a>
 
         {/* Desktop links */}
@@ -58,10 +59,12 @@ export function NavBar() {
           >
             Dashboard
           </a>
+          <ThemeToggle className="ml-1" />
         </div>
 
         {/* Mobile: Dashboard CTA stays reachable + hamburger */}
         <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
           <a
             href="/dashboard"
             className="inline-flex min-h-11 items-center border border-line px-3 font-mono-tight text-xs text-paper transition-colors hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"

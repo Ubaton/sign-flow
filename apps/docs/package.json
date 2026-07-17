@@ -13,6 +13,7 @@
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "gsap": "^3.12.5",
+    "motion": "^12.42.2",
     "next": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

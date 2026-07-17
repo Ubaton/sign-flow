@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/next';
+import { THEME_STORAGE_KEY } from '@/lib/theme';
 import './globals.css';
 
 // viewport-fit=cover lets sticky bars pad with env(safe-area-inset-*) on
@@ -84,9 +85,19 @@ const jsonLd = {
   },
 };
 
+// Runs before hydration so the `dark` class lands before first paint — a
+// stored preference wins, otherwise falls back to prefers-color-scheme.
+// Kept as a plain inline script (not next/script) because next/script's
+// earliest strategy still can't beat first paint the way a literal <head>
+// script does.
+const themeInitScript = `(function(){try{var k='${THEME_STORAGE_KEY}';var s=localStorage.getItem(k);var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body>
         {children}
         <Analytics />

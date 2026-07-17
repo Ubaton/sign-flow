@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Logo } from "@/components/ui/Logo";
 
 const FOOTER_LINKS = [
   { href: "/#features", label: "Features" },
@@ -16,12 +16,7 @@ export function Footer() {
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
           <div>
             <a href="/" className="inline-flex min-h-11 items-center">
-              <Image
-                src="/signflow-white-logo.svg"
-                alt="Logo"
-                width={120}
-                height={40}
-              />
+              <Logo />
             </a>
             <p className="mt-2 max-w-xs text-xs leading-relaxed text-mist">
               Self-hosted e-signature SDK. Own your data, verify server-side.

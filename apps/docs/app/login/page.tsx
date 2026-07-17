@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import Image from 'next/image';
 import { GithubMarkIcon, GoogleMarkIcon } from '@/components/icons';
+import { Logo } from '@/components/ui/Logo';
 import { githubLoginUrl, googleLoginUrl } from '@/lib/api';
 
 export default function LoginPage() {
@@ -24,7 +24,7 @@ export default function LoginPage() {
         className="w-full max-w-sm border border-line bg-ink/80 p-6 backdrop-blur sm:p-8"
       >
         <a href="/">
-          <Image src="/signflow-white-logo.svg" alt="SignFlow" width={120} height={40} />
+          <Logo />
         </a>
 
         <h1 className="mt-8 text-xl text-paper">Sign in to your dashboard</h1>
