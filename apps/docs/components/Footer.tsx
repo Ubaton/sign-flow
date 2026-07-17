@@ -1,49 +1,45 @@
 import Image from "next/image";
 
+const FOOTER_LINKS = [
+  { href: "/#features", label: "Features" },
+  { href: "/#quickstart", label: "Quick start" },
+  { href: "/demo", label: "Live demo" },
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "https://github.com/Ubaton/sign-flow", label: "GitHub" },
+  { href: "https://www.npmjs.com/settings/ubaton-ray/packages", label: "npm" },
+];
+
 export function Footer() {
   return (
-    <footer className="border-t border-line px-6 py-12">
-      <div className="mx-auto flex max-w-5xl flex-col gap-8">
+    <footer className="border-t border-line px-4 pb-[env(safe-area-inset-bottom)] pt-12 sm:px-6">
+      <div className="mx-auto flex max-w-5xl flex-col gap-8 pb-12">
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
           <div>
-          <a href="/">
-                  <Image
-                    src="/signflow-white-logo.svg"
-                    alt="Logo"
-                    width={120}
-                    height={40}
-                  />
-                </a>
+            <a href="/" className="inline-flex min-h-11 items-center">
+              <Image
+                src="/signflow-white-logo.svg"
+                alt="Logo"
+                width={120}
+                height={40}
+              />
+            </a>
             <p className="mt-2 max-w-xs text-xs leading-relaxed text-mist">
               Self-hosted e-signature SDK. Own your data, verify server-side.
             </p>
           </div>
 
-          <nav className="flex flex-wrap gap-x-8 gap-y-3 text-xs">
-            <a href="/#features" className="text-mist transition-colors hover:text-accent">
-              Features
-            </a>
-            <a href="/#quickstart" className="text-mist transition-colors hover:text-accent">
-              Quick start
-            </a>
-            <a href="/demo" className="text-mist transition-colors hover:text-accent">
-              Live demo
-            </a>
-            <a href="/dashboard" className="text-mist transition-colors hover:text-accent">
-              Dashboard
-            </a>
-            <a
-              href="https://github.com/Ubaton/sign-flow"
-              className="text-mist transition-colors hover:text-accent"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://www.npmjs.com/settings/ubaton-ray/packages"
-              className="text-mist transition-colors hover:text-accent"
-            >
-              npm
-            </a>
+          {/* Two columns of full-height tap targets on phones; a single
+              wrapping row from sm up. */}
+          <nav className="grid grid-cols-2 gap-x-8 text-xs sm:flex sm:flex-wrap sm:gap-x-8 sm:gap-y-3">
+            {FOOTER_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="inline-flex min-h-11 items-center text-mist transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent sm:min-h-0"
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
         </div>
 

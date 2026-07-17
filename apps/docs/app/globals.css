@@ -7,9 +7,13 @@
   --color-ink: #0a0a0a;
   --color-paper: #fafaf9;
   --color-line: #262626;
+  --color-line-strong: #404040;
   --color-mist: #8a8a86;
   --color-accent: #c8ff5c;
   --color-accent-dim: #8fbf3a;
+
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
 }
 
 :root {

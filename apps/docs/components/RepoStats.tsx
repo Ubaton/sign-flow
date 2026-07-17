@@ -70,7 +70,7 @@ export function RepoStats() {
       <a
         href={`https://github.com/${GITHUB_REPO}`}
         target='_blank' rel='noopener noreferrer'
-        className="flex items-center gap-1.5 border border-line px-3 py-1.5 text-mist transition-colors hover:border-accent hover:text-paper"
+        className="flex min-h-11 items-center gap-1.5 border border-line px-3 text-mist transition-colors hover:border-accent hover:text-paper"
       >
         <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
           <path d="M8 .2a8 8 0 0 0-2.5 15.6c.4.1.5-.2.5-.4v-1.4c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4a3.1 3.1 0 0 1 .8-2.2c-.1-.2-.4-1 .1-2.2 0 0 .7-.2 2.2.8a7.6 7.6 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.4 1.2.2 2 .1 2.2a3.1 3.1 0 0 1 .8 2.2c0 3.1-1.9 3.8-3.6 4 .3.2.6.7.6 1.5v2.2c0 .2.1.5.6.4A8 8 0 0 0 8 .2Z" />
@@ -80,7 +80,7 @@ export function RepoStats() {
       <a
         href={`https://www.npmjs.com/package/${stats.npmPackage}`}
         target='_blank' rel='noopener noreferrer'
-        className="flex items-center gap-1.5 border border-line px-3 py-1.5 text-mist transition-colors hover:border-accent hover:text-paper"
+        className="flex min-h-11 items-center gap-1.5 border border-line px-3 text-mist transition-colors hover:border-accent hover:text-paper"
       >
         <Image
           src="/sign-flow-npm.svg"

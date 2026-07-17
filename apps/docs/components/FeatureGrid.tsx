@@ -73,7 +73,7 @@ export function FeatureGrid() {
       {FEATURES.map(({ icon: Icon, title, body }) => (
         <div
           key={title}
-          className="feature-card group bg-ink p-8 transition-colors hover:bg-neutral-950"
+          className="feature-card group bg-ink p-6 sm:p-8"
         >
           <Icon className="h-8 w-8 text-accent transition-transform duration-300 group-hover:-translate-y-0.5" />
           <h3 className="mt-6 font-mono-tight text-lg text-paper">{title}</h3>

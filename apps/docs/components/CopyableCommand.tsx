@@ -15,7 +15,7 @@ export function CopyableCommand({ command }: { command: string }) {
     <button
       type="button"
       onClick={copy}
-      className="group flex items-center gap-3 border border-line px-4 py-2.5 font-mono-tight text-sm text-paper transition-colors hover:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+      className="group flex min-h-11 items-center gap-3 border border-line px-4 font-mono-tight text-sm text-paper transition-colors hover:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
       aria-label={`Copy command: ${command}`}
     >
       <code>{command}</code>

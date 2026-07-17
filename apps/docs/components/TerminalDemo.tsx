@@ -131,20 +131,20 @@ export function TerminalDemo() {
   return (
     <div
       ref={rootRef}
-      className="relative overflow-hidden rounded-none border border-line bg-neutral-950 font-mono-tight text-sm leading-relaxed"
+      className="relative overflow-hidden rounded-none border border-line bg-ink font-mono-tight text-sm leading-relaxed"
     >
-      <div className="flex items-center justify-between border-b border-line px-6 py-3">
+      <div className="flex items-center justify-between border-b border-line px-4 py-3 sm:px-6">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-neutral-700" />
-          <span className="h-2.5 w-2.5 rounded-full bg-neutral-700" />
-          <span className="h-2.5 w-2.5 rounded-full bg-neutral-700" />
+          <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
+          <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
+          <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
           <span className="ml-3 text-xs text-mist">capture.ts</span>
         </div>
         <div className="flex items-center gap-2">
-          {toast && <span className="font-mono-tight text-[10px] text-accent">Saved</span>}
+          {toast && <span className="font-mono-tight text-2xs text-accent">Saved</span>}
           <span
             ref={saveRef}
-            className={`rounded-none border px-2 py-1 text-[10px] uppercase tracking-wider transition-colors ${
+            className={`rounded-none border px-2 py-1 text-2xs uppercase tracking-wider transition-colors ${
               phase === 'saving' || toast
                 ? 'border-accent text-accent'
                 : 'border-line text-mist'
@@ -155,18 +155,25 @@ export function TerminalDemo() {
         </div>
       </div>
 
-      <div className="relative min-h-[280px] p-6">
+      <div className="relative min-h-70 p-4 sm:p-6">
         {phase !== 'preview' ? (
-          <div>
-            {codeLines.map((line, i) => (
-              <div key={i} className="whitespace-pre text-paper/90">
-                {line || ' '}
-              </div>
-            ))}
-            {(phase === 'typing' || phase === 'idle') && (
-              <span className="inline-block h-4 w-1.5 animate-pulse bg-accent align-text-bottom" />
-            )}
-          </div>
+          <>
+            {/* Long lines scroll inside the block — never the page. */}
+            <div className="overflow-x-auto pb-2">
+              {codeLines.map((line, i) => (
+                <div key={i} className="whitespace-pre text-paper/90">
+                  {line || ' '}
+                </div>
+              ))}
+              {(phase === 'typing' || phase === 'idle') && (
+                <span className="inline-block h-4 w-1.5 animate-pulse bg-accent align-text-bottom" />
+              )}
+            </div>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-ink to-transparent sm:hidden"
+            />
+          </>
         ) : (
           <div
             className="flex flex-col items-start gap-4 sm:flex-row sm:items-center"

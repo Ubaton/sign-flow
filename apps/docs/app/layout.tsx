@@ -1,6 +1,14 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
+
+// viewport-fit=cover lets sticky bars pad with env(safe-area-inset-*) on
+// notch/home-indicator devices instead of sitting under the hardware.
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
 
 // Falls back to the real production domain, not localhost — a missing env
 // var must never silently break canonical/OG URLs in a live deployment.

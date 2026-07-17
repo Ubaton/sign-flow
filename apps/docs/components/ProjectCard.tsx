@@ -33,14 +33,16 @@ export function ProjectCard({
   const secretKey = env === 'test' ? project.testSecretKey : project.secretKey;
 
   return (
-    <div className="project-card border border-line bg-ink p-6">
-      <div className="flex items-center justify-between">
-        <h3 className="font-mono-tight text-base text-paper">{project.name}</h3>
+    <div className="project-card border border-line bg-ink p-4 sm:p-6">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+        <h3 className="min-w-0 break-words font-mono-tight text-base text-paper">
+          {project.name}
+        </h3>
         <button
           type="button"
           onClick={handleRotate}
           disabled={rotating}
-          className="font-mono-tight text-xs text-mist transition-colors hover:text-accent disabled:opacity-50"
+          className="inline-flex min-h-11 items-center font-mono-tight text-xs text-mist transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent disabled:opacity-50"
         >
           {rotating ? 'rotating…' : `rotate ${env} keys`}
         </button>
@@ -50,7 +52,7 @@ export function ProjectCard({
         <button
           type="button"
           onClick={() => setEnv('test')}
-          className={`px-3 py-1.5 transition-colors ${
+          className={`inline-flex min-h-11 items-center px-4 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent ${
             env === 'test' ? 'bg-accent text-ink' : 'text-mist hover:text-paper'
           }`}
         >
@@ -59,7 +61,7 @@ export function ProjectCard({
         <button
           type="button"
           onClick={() => setEnv('live')}
-          className={`border-l border-line px-3 py-1.5 transition-colors ${
+          className={`inline-flex min-h-11 items-center border-l border-line px-4 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent ${
             env === 'live' ? 'bg-accent text-ink' : 'text-mist hover:text-paper'
           }`}
         >

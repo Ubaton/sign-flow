@@ -1,12 +1,18 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
 
+const NAV_LINKS = [
+  { href: '/#features', label: 'Features' },
+  { href: '/#quickstart', label: 'Quick start' },
+  { href: '/demo', label: 'Live demo' },
+];
 
 export function NavBar() {
   const ref = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     gsap.fromTo(
@@ -16,33 +22,86 @@ export function NavBar() {
     );
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
   return (
     <nav
       ref={ref}
-      className="sticky top-0 z-10 flex items-center justify-between border-b border-line bg-ink/80 px-6 py-4 backdrop-blur"
+      className="sticky top-0 z-10 border-b border-line bg-ink/80 pt-[env(safe-area-inset-top)] backdrop-blur"
     >
-      <a href="/">
-        <Image
-          src="/signflow-white-logo.svg"
-          alt="Logo"
-          width={120}
-          height={40}
-        />
-      </a>
-      <div className="flex items-center gap-6 text-sm text-mist">
-        <a href="/#features" className="transition-colors hover:text-paper">
-          Features
+      <div className="flex items-center justify-between px-4 py-3 sm:px-6">
+        <a href="/" className="inline-flex min-h-11 items-center">
+          <Image src="/signflow-white-logo.svg" alt="SignFlow" width={120} height={40} />
         </a>
-        <a href="/#quickstart" className="transition-colors hover:text-paper">
-          Quick start
-        </a>
-        <a
-          href="/dashboard"
-          className="rounded-none border border-line px-3 py-1.5 font-mono-tight text-xs text-paper transition-colors hover:border-accent hover:text-accent"
-        >
-          Dashboard
-        </a>
+
+        {/* Desktop links */}
+        <div className="hidden items-center gap-2 text-sm text-mist md:flex">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="inline-flex min-h-11 items-center px-3 transition-colors hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+            >
+              {link.label}
+            </a>
+          ))}
+          <a
+            href="/dashboard"
+            className="ml-2 inline-flex min-h-11 items-center border border-line px-4 font-mono-tight text-xs text-paper transition-colors hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+          >
+            Dashboard
+          </a>
+        </div>
+
+        {/* Mobile: Dashboard CTA stays reachable + hamburger */}
+        <div className="flex items-center gap-1 md:hidden">
+          <a
+            href="/dashboard"
+            className="inline-flex min-h-11 items-center border border-line px-3 font-mono-tight text-xs text-paper transition-colors hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+          >
+            Dashboard
+          </a>
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            className="inline-flex h-11 w-11 items-center justify-center text-paper transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
+              {open ? (
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              ) : (
+                <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
+
+      {/* Mobile drawer */}
+      {open && (
+        <div id="mobile-nav" className="border-t border-line md:hidden">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="flex min-h-12 items-center px-6 text-sm text-mist transition-colors hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }

@@ -21,7 +21,7 @@ export default function LoginPage() {
     <main className="grid-backdrop flex min-h-screen items-center justify-center px-6">
       <div
         ref={cardRef}
-        className="w-full max-w-sm border border-line bg-neutral-950/80 p-8 backdrop-blur"
+        className="w-full max-w-sm border border-line bg-ink/80 p-6 backdrop-blur sm:p-8"
       >
         <a href="/">
           <Image src="/signflow-white-logo.svg" alt="SignFlow" width={120} height={40} />

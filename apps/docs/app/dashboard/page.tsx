@@ -2,8 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { NavBar } from '@/components/NavBar';
-import { Footer } from '@/components/Footer';
 import { ProjectCard } from '@/components/ProjectCard';
 import {
   ApiError,
@@ -13,7 +11,6 @@ import {
   createProject,
   getCurrentUser,
   listProjects,
-  logoutUrl,
   rotateProjectKeys,
 } from '@/lib/api';
 
@@ -75,7 +72,7 @@ export default function DashboardPage() {
 
   if (state === 'loading') {
     return (
-      <main className="flex min-h-screen items-center justify-center">
+      <main className="flex flex-1 items-center justify-center py-24">
         <span className="font-mono-tight text-sm text-mist">loading…</span>
       </main>
     );
@@ -83,7 +80,7 @@ export default function DashboardPage() {
 
   if (state === 'error') {
     return (
-      <main className="flex min-h-screen items-center justify-center px-6">
+      <main className="flex flex-1 items-center justify-center px-6 py-24">
         <span className="font-mono-tight text-sm text-mist">
           Couldn&apos;t reach the API. Is it running?
         </span>
@@ -92,78 +89,66 @@ export default function DashboardPage() {
   }
 
   return (
-    <>
-      <NavBar />
-      <main className="px-6 py-16">
-        <div className="mx-auto max-w-5xl">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <h1 className="text-2xl text-paper">Dashboard</h1>
-              <p className="mt-1 text-sm text-mist">Signed in as {user?.name ?? user?.email}</p>
-            </div>
-            <a
-              href={logoutUrl()}
-              className="font-mono-tight text-xs text-mist transition-colors hover:text-accent"
-            >
-              sign out
-            </a>
+    <main className="px-4 py-10 sm:px-6 sm:py-16">
+      <div className="mx-auto max-w-5xl">
+        <div>
+          <h1 className="text-2xl text-paper">Dashboard</h1>
+          <p className="mt-1 text-sm text-mist">Signed in as {user?.name ?? user?.email}</p>
+        </div>
+
+        <section className="mt-12">
+          <h2 className="font-mono-tight text-sm uppercase tracking-[0.2em] text-mist">
+            Install the package
+          </h2>
+          <div className="mt-4 flex flex-col gap-2 border border-line bg-ink p-4 font-mono-tight text-sm sm:p-6">
+            <span className="text-paper">npm install signflow-core</span>
+            <span className="break-words text-mist">
+              published from{' '}
+              <a
+                href="https://www.npmjs.com/package/signflow-core"
+                className="text-accent transition-colors hover:underline"
+              >
+                https://www.npmjs.com/package/signflow-core
+              </a>
+            </span>
+          </div>
+        </section>
+
+        <section className="mt-12">
+          <div className="flex items-center justify-between">
+            <h2 className="font-mono-tight text-sm uppercase tracking-[0.2em] text-mist">
+              Projects
+            </h2>
           </div>
 
-          <section className="mt-12">
-            <h2 className="font-mono-tight text-sm uppercase tracking-[0.2em] text-mist">
-              Install the package
-            </h2>
-            <div className="mt-4 flex flex-col gap-2 border border-line bg-neutral-950 p-6 font-mono-tight text-sm">
-              <span className="text-paper">npm install signflow-core</span>
-              <span className="text-mist">
-                published from{' '}
-                <a
-                  href="https://www.npmjs.com/package/signflow-core"
-                  className="text-accent transition-colors hover:underline"
-                >
-                  https://www.npmjs.com/package/signflow-core
-                </a>
-              </span>
-            </div>
-          </section>
+          <form onSubmit={handleCreate} className="mt-4 flex flex-col gap-3 sm:flex-row">
+            <input
+              value={newProjectName}
+              onChange={(e) => setNewProjectName(e.target.value)}
+              placeholder="project name"
+              className="min-h-11 flex-1 border border-line bg-ink px-4 font-mono-tight text-base text-paper placeholder:text-mist focus:border-accent focus:outline-none"
+            />
+            <button
+              type="submit"
+              disabled={creating || !newProjectName.trim()}
+              className="inline-flex min-h-11 items-center justify-center border border-accent bg-accent px-5 font-mono-tight text-sm text-ink transition-transform hover:-translate-y-0.5 disabled:pointer-events-none disabled:opacity-50"
+            >
+              {creating ? 'creating…' : 'new project'}
+            </button>
+          </form>
 
-          <section className="mt-12">
-            <div className="flex items-center justify-between">
-              <h2 className="font-mono-tight text-sm uppercase tracking-[0.2em] text-mist">
-                Projects
-              </h2>
-            </div>
-
-            <form onSubmit={handleCreate} className="mt-4 flex gap-3">
-              <input
-                value={newProjectName}
-                onChange={(e) => setNewProjectName(e.target.value)}
-                placeholder="project name"
-                className="flex-1 border border-line bg-neutral-950 px-4 py-2.5 font-mono-tight text-sm text-paper placeholder:text-mist focus:border-accent focus:outline-none"
-              />
-              <button
-                type="submit"
-                disabled={creating || !newProjectName.trim()}
-                className="border border-accent bg-accent px-5 py-2.5 font-mono-tight text-sm text-ink transition-transform hover:-translate-y-0.5 disabled:pointer-events-none disabled:opacity-50"
-              >
-                {creating ? 'creating…' : 'new project'}
-              </button>
-            </form>
-
-            <div ref={listRef} className="mt-8 flex flex-col gap-4">
-              {projects.length === 0 && (
-                <p className="text-sm text-mist">
-                  No projects yet — create one to get a public/secret key pair.
-                </p>
-              )}
-              {projects.map((project) => (
-                <ProjectCard key={project.id} project={project} onRotate={handleRotate} />
-              ))}
-            </div>
-          </section>
-        </div>
-      </main>
-      <Footer />
-    </>
+          <div ref={listRef} className="mt-8 flex flex-col gap-4">
+            {projects.length === 0 && (
+              <p className="text-sm text-mist">
+                No projects yet — create one to get a public/secret key pair.
+              </p>
+            )}
+            {projects.map((project) => (
+              <ProjectCard key={project.id} project={project} onRotate={handleRotate} />
+            ))}
+          </div>
+        </section>
+      </div>
+    </main>
   );
 }
