@@ -13,15 +13,30 @@ e-signature vendor — it is an independent, self-hosted alternative.
 ## Product
 
 - [Homepage](/): overview, live signature-capture demo, feature grid, quick-start code.
+- [Live demo](/demo): interactive signature capture running against the real capture engine.
 - [Dashboard](/dashboard): create projects, view/rotate public and secret API keys (requires sign-in).
 - [Sign in](/login): GitHub or Google OAuth, no passwords.
+
+## Docs
+
+- [Documentation](/docs): index of the guides below.
+- [Self-hosted backend](/docs/self-hosting): deploy the NestJS + PostgreSQL API on your own
+  infrastructure — requirements, Docker Compose quick start, environment variables, reverse
+  proxy/TLS, backups, and pointing the SDK at your instance via `baseUrl`.
+- [API reference](/docs/api): every endpoint (OAuth, projects & key rotation, signatures),
+  per-endpoint auth requirements, and the `SignatureRecord` data model. Keys are sent as
+  `Authorization: Bearer <key>`.
+- [Security & Compliance](/docs/security): server-assigned timestamps, opt-in geolocation,
+  key management, data retention & erasure, and what compliance posture that does and does
+  not provide (POPIA / GDPR / ESIGN / eIDAS).
 
 ## SDK
 
 - `signflow-core` on npm: framework-agnostic capture logic (pointer/touch/pen event
   handling, SVG path + pressure export, opt-in geolocation, typed API client).
 - `signflow` on npm: `<SignaturePad />` React component wrapping `signflow-core`.
-- Published under https://www.npmjs.com/settings/ubaton-ray/packages.
+- Published at https://www.npmjs.com/package/signflow-core and
+  https://www.npmjs.com/package/signflow.
 
 ## API
 
