@@ -1,21 +1,10 @@
 'use client';
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import gsap from 'gsap';
+import { flushSync } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { MoonIcon, SunIcon } from '@/components/icons';
 import { THEME_STORAGE_KEY } from '@/lib/theme';
-
-// Mirrors the light/dark `--color-ink` values in globals.css. The ripple
-// overlay has to paint the *incoming* theme's background while the rest of
-// the page still renders the outgoing one via the CSS cascade — it can't
-// read the custom property for a theme that isn't applied yet, so the
-// values are duplicated here deliberately.
-const RIPPLE_BG: Record<'light' | 'dark', string> = {
-  light: '#fafaf9',
-  dark: '#0a0a0a',
-};
 
 // useLayoutEffect warns when it runs during SSR; client components are
 // still rendered to a string on the server, so this ternary is required,
@@ -50,30 +39,35 @@ export function useTheme() {
 
 const iconTransition = { duration: 0.35, ease: [0.34, 1.56, 0.64, 1] as const };
 
+// The reference demo's curve family (GSAP power4.inOut ≈ easeInOutQuart),
+// run a touch longer than the demo's 0.8s per earlier pacing feedback.
+const RIPPLE_DURATION_MS = 1000;
+const RIPPLE_EASING = 'cubic-bezier(0.76, 0, 0.24, 1)';
+
 export function ThemeToggle({ className }: { className?: string }) {
   const { isDark, setIsDark } = useTheme();
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
-  // The overlay is portaled to <body> (see render below) instead of sitting
-  // where this component happens to be mounted — the Navbar/Dashboard
-  // header use backdrop-blur, which creates a containing block for
-  // position:fixed descendants, trapping a same-tree overlay inside the
-  // header's own (tiny) box instead of the viewport. Portaling needs
-  // `document`, so it's deferred to a mount effect for SSR-safety.
-  const [portalReady, setPortalReady] = useState(false);
-  useEffect(() => setPortalReady(true), []);
+  const activeTransition = useRef<ViewTransition | null>(null);
 
   function handleToggle() {
-    const next: 'light' | 'dark' = isDark ? 'light' : 'dark';
+    // Read the DOM class, not React state: the icon state is deliberately
+    // held back until the reveal finishes (see below), so a click landing
+    // mid-ripple would compute the wrong `next` from a stale `isDark`.
+    const next: 'light' | 'dark' = document.documentElement.classList.contains('dark')
+      ? 'light'
+      : 'dark';
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const button = buttonRef.current;
-    const overlay = overlayRef.current;
 
-    if (reduceMotion || !button || !overlay) {
+    if (reduceMotion || !button || !document.startViewTransition) {
       applyTheme(next);
       setIsDark(next === 'dark');
       return;
     }
+
+    // A click while a ripple is still playing: jump the old transition to
+    // its end state so the new one snapshots a settled page.
+    activeTransition.current?.skipTransition();
 
     // The button's own screen position, not the pointer's — keyboard
     // activation (Tab + Enter/Space) then originates the ripple correctly
@@ -86,66 +80,88 @@ export function ThemeToggle({ className }: { className?: string }) {
       Math.max(y, window.innerHeight - y),
     );
 
-    overlay.style.background = RIPPLE_BG[next];
-    overlay.style.clipPath = `circle(0px at ${x}px ${y}px)`;
-    overlay.style.display = 'block';
-
-    gsap.to(overlay, {
-      clipPath: `circle(${maxRadius}px at ${x}px ${y}px)`,
-      duration: 0.8,
-      ease: 'power4.inOut',
-      onComplete: () => {
-        applyTheme(next);
-        setIsDark(next === 'dark');
-        overlay.style.display = 'none';
-      },
+    const transition = document.startViewTransition(() => {
+      // Only the document class flips inside the snapshot callback. React
+      // state (icon, aria-label) waits for `finished`, so the sun/moon
+      // bounce plays live once the reveal lands — matching the reference
+      // demo's onComplete swap — instead of being flattened invisibly
+      // into the captured frame. flushSync makes the restyled page the
+      // "after" snapshot rather than a frame-late paint.
+      flushSync(() => applyTheme(next));
     });
+    activeTransition.current = transition;
+
+    transition.ready
+      .then(() => {
+        // The ripple must be a real animation on the transition's own
+        // pseudo-element — WAAPI is the only API that can target one; GSAP
+        // cannot. The browser keeps the transition (and the frozen
+        // old-theme snapshot) alive exactly as long as animations on its
+        // pseudos run. Tweening anything else (the previous CSS-variable
+        // approach) let the transition finish on its default ~0.25s group
+        // timeline, which cut the visible ripple off almost immediately.
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${maxRadius}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: RIPPLE_DURATION_MS,
+            easing: RIPPLE_EASING,
+            pseudoElement: '::view-transition-new(root)',
+          },
+        );
+      })
+      .catch(() => {
+        // Transition was skipped (another toggle, a navigation) — the
+        // theme class already flipped in the callback, nothing to animate.
+      });
+
+    transition.finished
+      .catch(() => {})
+      .finally(() => {
+        if (activeTransition.current === transition) {
+          activeTransition.current = null;
+        }
+        setIsDark(next === 'dark');
+      });
   }
 
   return (
-    <>
-      <button
-        ref={buttonRef}
-        type="button"
-        onClick={handleToggle}
-        aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-        className={`relative inline-flex h-11 w-11 items-center justify-center text-paper transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent ${className ?? ''}`}
-      >
-        <AnimatePresence initial={false}>
-          {isDark ? (
-            <motion.span
-              key="moon"
-              className="absolute inset-0 flex items-center justify-center"
-              initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              exit={{ opacity: 0, scale: 0.5, rotate: 45 }}
-              transition={iconTransition}
-            >
-              <MoonIcon className="h-[18px] w-[18px]" />
-            </motion.span>
-          ) : (
-            <motion.span
-              key="sun"
-              className="absolute inset-0 flex items-center justify-center"
-              initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              exit={{ opacity: 0, scale: 0.5, rotate: 45 }}
-              transition={iconTransition}
-            >
-              <SunIcon className="h-[18px] w-[18px]" />
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </button>
-      {portalReady &&
-        createPortal(
-          <div
-            ref={overlayRef}
-            aria-hidden="true"
-            className="pointer-events-none fixed inset-0 z-[9999] hidden"
-          />,
-          document.body,
+    <button
+      ref={buttonRef}
+      type="button"
+      onClick={handleToggle}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      className={`relative inline-flex h-11 w-11 items-center justify-center text-paper transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent ${className ?? ''}`}
+    >
+      <AnimatePresence initial={false}>
+        {isDark ? (
+          <motion.span
+            key="moon"
+            className="absolute inset-0 flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            exit={{ opacity: 0, scale: 0.5, rotate: 45 }}
+            transition={iconTransition}
+          >
+            <MoonIcon className="h-[18px] w-[18px]" />
+          </motion.span>
+        ) : (
+          <motion.span
+            key="sun"
+            className="absolute inset-0 flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            exit={{ opacity: 0, scale: 0.5, rotate: 45 }}
+            transition={iconTransition}
+          >
+            <SunIcon className="h-[18px] w-[18px]" />
+          </motion.span>
         )}
-    </>
+      </AnimatePresence>
+    </button>
   );
 }

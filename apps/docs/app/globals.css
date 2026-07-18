@@ -79,3 +79,20 @@ body {
     linear-gradient(to bottom, color-mix(in srgb, var(--color-paper) 6%, transparent) 1px, transparent 1px);
   background-size: 48px 48px;
 }
+
+/*
+ * Ripple theme-toggle transition (see theme-toggle.tsx). The View
+ * Transitions API snapshots the real before/after page, so the clip-path
+ * reveal — driven by a WAAPI animation on ::view-transition-new(root) —
+ * shows actual content growing in, never a flat fill. Default cross-fades
+ * are disabled, and the snapshot layer must not swallow clicks while the
+ * ~1s reveal plays: hit-testing falls through to the live page beneath.
+ */
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
