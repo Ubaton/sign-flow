@@ -31,6 +31,16 @@ jobs:
       # On every push to main: if there are pending changesets, opens/updates
       # a "Version Packages" PR. Once that PR is merged (which contains no
       # more changesets), this step publishes the bumped packages to npm.
+      #
+      # The PR half needs a repo setting that the `permissions:` block above
+      # cannot grant: Settings → Actions → General → Workflow permissions →
+      # "Allow GitHub Actions to create and approve pull requests". Without it
+      # this step fails with "GitHub Actions is not permitted to create or
+      # approve pull requests" once a changeset is pending.
+      #
+      # Alternative if you'd rather not enable it: run `npx changeset version`
+      # locally and commit the result. With no changesets left on main, this
+      # step skips PR creation entirely and goes straight to publishing.
       - name: Version or publish
         uses: changesets/action@v1
         with:
