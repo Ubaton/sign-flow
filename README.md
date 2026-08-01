@@ -17,6 +17,80 @@ SignFlow helps teams build and run their own e-signature workflow.
 - Integrate signing into other products using publishable SDK packages.
 - Support API-key and OAuth-based authentication flows.
 
+## Quick start
+
+### React — `<SignaturePad />`
+
+```bash
+npm install signflow
+```
+
+```tsx
+import { useRef, useState } from 'react';
+import { SignaturePad, SignatureEmptyError, type SignaturePadHandle } from 'signflow';
+
+export function AgreementPage() {
+  const pad = useRef<SignaturePadHandle>(null);
+  const [empty, setEmpty] = useState(true);
+
+  async function handleSubmit() {
+    try {
+      const record = await pad.current?.submit();
+      console.log('stored as', record?.id);
+    } catch (err) {
+      if (err instanceof SignatureEmptyError) return; // nothing drawn
+      throw err;
+    }
+  }
+
+  return (
+    <>
+      <SignaturePad
+        ref={pad}
+        publicKey="pk_test_..."
+        signerId="client@example.com"
+        pageName="master-services-agreement"
+        onChange={(e) => setEmpty(e.isEmpty)}
+      />
+      <button onClick={() => pad.current?.clear()} disabled={empty}>Clear</button>
+      <button onClick={handleSubmit} disabled={empty}>Submit</button>
+    </>
+  );
+}
+```
+
+The canvas sizes itself from CSS and tracks `devicePixelRatio`, so strokes stay
+aligned with the pointer and sharp on high-DPI screens. Ink defaults to the
+inherited CSS `color`. Full prop and handle tables live in
+[packages/react](packages/react#props).
+
+### Anything else — `signflow-core`
+
+```bash
+npm install signflow-core
+```
+
+```ts
+import { SignatureCapture, SignClient } from 'signflow-core';
+
+const capture = new SignatureCapture({ element: canvasEl });
+// ...user draws — you own the rendering...
+
+const client = new SignClient({ apiKey: 'pk_test_...' });
+const record = await client.submitSignature({
+  signature: capture.toSvgPath(),
+  location: null,
+  deviceData: capture.getDeviceData(),
+  siteUrl: location.href,
+  pageName: 'agreement',
+  createdBy: 'signer@example.com',
+});
+```
+
+`SignatureCapture` records strokes but never draws — that is the caller's job,
+which is exactly what `<SignaturePad />` handles for you. Use a test key
+(`pk_test_...`) while developing; those submissions are scoped separately from
+live data. See [packages/core](packages/core#api) for the full surface.
 
 ## Local development
 
