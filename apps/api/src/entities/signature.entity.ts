@@ -38,6 +38,12 @@ export class SignatureEntity {
   @Column()
   pageName!: string;
 
+  @Column({ nullable: true })
+  status!: string | null;
+
+  @Column({ nullable: true })
+  statusTimeStamp!: string | null;
+
   @ManyToOne(() => ProjectEntity, { onDelete: 'CASCADE' })
   project!: ProjectEntity;
 

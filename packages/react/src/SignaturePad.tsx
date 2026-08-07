@@ -43,6 +43,10 @@ export interface SignaturePadProps
   /** Identifier for the person signing, e.g. their email. */
   signerId: string;
   pageName: string;
+  /** Optional sign status label, e.g. 'signed' or 'approved'. */
+  status?: string;
+  /** Optional status timestamp in string form, e.g. ISO 8601. */
+  statusTimeStamp?: string;
   /** Ask for geolocation before submit. Defaults to false (opt-in). */
   collectLocation?: boolean;
   /** CSS width. Numbers are treated as px. Use '100%' to fill a sized parent. */
@@ -88,6 +92,8 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
       apiBaseUrl,
       signerId,
       pageName,
+      status,
+      statusTimeStamp,
       collectLocation = false,
       width = 500,
       height = 200,
@@ -116,6 +122,8 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
       apiBaseUrl,
       signerId,
       pageName,
+      status,
+      statusTimeStamp,
       collectLocation,
       strokeColor,
       lineWidth,
@@ -129,6 +137,8 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
         apiBaseUrl,
         signerId,
         pageName,
+        status,
+        statusTimeStamp,
         collectLocation,
         strokeColor,
         lineWidth,
@@ -290,6 +300,8 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
               apiBaseUrl: baseUrl,
               signerId: createdBy,
               pageName: page,
+              status,
+              statusTimeStamp,
               collectLocation: wantsLocation,
               onSubmit: handleSubmit,
               onError: handleError,
@@ -308,6 +320,8 @@ export const SignaturePad = forwardRef<SignaturePadHandle, SignaturePadProps>(
                 siteUrl: typeof window !== 'undefined' ? window.location.href : '',
                 pageName: page,
                 createdBy,
+                status,
+                statusTimeStamp,
               });
               handleSubmit?.(record);
               return record;

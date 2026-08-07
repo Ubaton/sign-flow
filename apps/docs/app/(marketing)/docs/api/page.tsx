@@ -255,9 +255,11 @@ export default function ApiReferencePage() {
   };
   siteUrl: string;
   pageName: string;
+  status?: string;            // optional signed status code or label
+  statusTimeStamp?: string;   // optional timestamp when status was assigned
   projectId: string;          // inferred from the public key, not client-supplied
   createdBy: string;          // account email
-}`}</CodeBlock>
+}}</CodeBlock>
         </DocsSection>
 
         <DocsSection id="errors" title="Errors">

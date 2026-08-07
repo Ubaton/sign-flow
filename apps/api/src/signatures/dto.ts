@@ -45,6 +45,14 @@ export class CreateSignatureDto {
   @IsString()
   pageName!: string;
 
+  @IsOptional()
+  @IsString()
+  status?: string;
+
+  @IsOptional()
+  @IsString()
+  statusTimeStamp?: string;
+
   @IsString()
   createdBy!: string;
 }

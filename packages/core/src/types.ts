@@ -36,6 +36,8 @@ export interface SignatureSubmission {
   siteUrl: string;
   pageName: string;
   createdBy: string;
+  status?: string;
+  statusTimeStamp?: string;
 }
 
 /** Full record as returned by the API. */
@@ -49,6 +51,8 @@ export interface SignatureRecord {
   pageName: string;
   projectId: string;
   createdBy: string;
+  status?: string;
+  statusTimeStamp?: string;
   /** True if captured with a pk_test_/sk_test_ key. */
   isTest: boolean;
 }
