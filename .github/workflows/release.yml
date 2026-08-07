@@ -26,6 +26,16 @@ jobs:
 
       - run: npm ci
 
+      - name: Validate NPM publish credentials
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "error: NPM_TOKEN secret is not set. Set NPM_TOKEN with publish access to signflow-core and signflow."
+            exit 1
+          fi
+
       - run: npm run build --workspace=signflow-core --workspace=signflow
 
       # On every push to main: if there are pending changesets, opens/updates
