@@ -1,5 +1,6 @@
 {
   "name": "signflow",
+  "private": true,
   "version": "0.0.2",
   "description": "React <SignaturePad /> component for SignFlow, a self-hosted e-signature SDK",
   "keywords": [

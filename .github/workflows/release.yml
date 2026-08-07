@@ -54,7 +54,7 @@ jobs:
       - name: Version or publish
         uses: changesets/action@v1
         with:
-          publish: npx changeset publish
+          publish: npx changeset publish --ignore signflow --ignore @ubaton-ray/api --ignore @ubaton-ray/docs
           version: npm run version-packages
           commit: 'chore: version packages'
           title: 'chore: version packages'
