@@ -42,6 +42,15 @@ export function strokesToPressureArray(strokes: Stroke[]): number[] {
   return pressures;
 }
 
+/** Extracts the point speed values in stroke/point order. */
+export function strokesToSpeedArray(strokes: Stroke[]): number[] {
+  const speeds: number[] = [];
+  for (const stroke of strokes) {
+    for (const p of stroke.points) speeds.push(p.speed);
+  }
+  return speeds;
+}
+
 function fmt(n: number): string {
   return Math.round(n * 100) / 100 + '';
 }

@@ -6,6 +6,12 @@ export interface StrokePoint {
   pressure: number;
   /** Milliseconds since the stroke started. */
   t: number;
+  /** X velocity in pixels per second, derived from the previous point. */
+  vx: number;
+  /** Y velocity in pixels per second, derived from the previous point. */
+  vy: number;
+  /** Resultant speed in pixels per second. */
+  speed: number;
 }
 
 export interface Stroke {

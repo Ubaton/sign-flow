@@ -71,11 +71,34 @@ export class SignatureCapture {
 
   private pointFromEvent(e: PointerEvent): StrokePoint {
     const rect = this.element.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const timestamp = performance.now() - this.strokeStartTime;
+    const previous = this.activeStroke?.points.length
+      ? this.activeStroke.points[this.activeStroke.points.length - 1]
+      : undefined;
+
+    let vx = 0;
+    let vy = 0;
+    let speed = 0;
+
+    if (previous) {
+      const dt = timestamp - previous.t;
+      if (dt > 0) {
+        vx = ((x - previous.x) / dt) * 1000;
+        vy = ((y - previous.y) / dt) * 1000;
+        speed = Math.hypot(vx, vy);
+      }
+    }
+
     return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+      x,
+      y,
       pressure: e.pressure || 0.5,
-      t: performance.now() - this.strokeStartTime,
+      t: timestamp,
+      vx,
+      vy,
+      speed,
     };
   }
 

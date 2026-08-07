@@ -329,7 +329,7 @@ describe('imperative handle', () => {
 
     const first = ref.current!.getStrokes();
     first.push({ points: [] });
-    first[0]!.points.push({ x: 999, y: 999, pressure: 1, t: 0 });
+    first[0]!.points.push({ x: 999, y: 999, pressure: 1, t: 0, vx: 0, vy: 0, speed: 0 });
 
     const second = ref.current!.getStrokes();
     expect(second).toHaveLength(1);
