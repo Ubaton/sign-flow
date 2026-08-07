@@ -1,6 +1,6 @@
 {
   "name": "signflow-core",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "Framework-agnostic signature capture logic and API client for SignFlow",
   "keywords": [
     "signature",
@@ -41,7 +41,8 @@
   ],
   "sideEffects": false,
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
