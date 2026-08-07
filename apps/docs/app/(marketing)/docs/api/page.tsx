@@ -239,7 +239,8 @@ export default function ApiReferencePage() {
             The confirmed shape from the technical spec — server-assigned fields are never
             accepted from the client on write.
           </p>
-          <CodeBlock>{`interface SignatureRecord {
+          <CodeBlock>
+            {`interface SignatureRecord {
   id: string;                // UUID, server-assigned
   signature: string;         // SVG path data or base64 PNG
   date: string;               // ISO 8601, server-assigned — not client-trusted
@@ -259,7 +260,8 @@ export default function ApiReferencePage() {
   statusTimeStamp?: string;   // optional timestamp when status was assigned
   projectId: string;          // inferred from the public key, not client-supplied
   createdBy: string;          // account email
-}}</CodeBlock>
+}`}
+          </CodeBlock>
         </DocsSection>
 
         <DocsSection id="errors" title="Errors">

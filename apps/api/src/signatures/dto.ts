@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsBoolean, IsIn, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
-import type { InputType } from '../entities/signature.entity.js';
+import { InputType, SignatureStatus } from '../entities/signature.entity.js';
 
 class GeoLocationDto {
   @IsNumber()
@@ -46,8 +46,8 @@ export class CreateSignatureDto {
   pageName!: string;
 
   @IsOptional()
-  @IsString()
-  status?: string;
+  @IsIn([SignatureStatus.PENDING, SignatureStatus.COMPLETED, SignatureStatus.FAILED])
+  status?: SignatureStatus | null;
 
   @IsOptional()
   @IsString()

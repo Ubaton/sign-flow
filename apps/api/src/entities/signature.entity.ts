@@ -3,6 +3,12 @@ import { ProjectEntity } from './project.entity.js';
 
 export type InputType = 'touch' | 'pen' | 'mouse';
 
+export enum SignatureStatus {
+  PENDING = 'pending',
+  COMPLETED = 'completed',
+  FAILED = 'failed',
+}
+
 export interface DeviceData {
   userAgent: string;
   inputType: InputType;
@@ -38,8 +44,14 @@ export class SignatureEntity {
   @Column()
   pageName!: string;
 
-  @Column({ nullable: true })
-  status!: string | null;
+  @Column({
+    type: 'enum',
+    enum: SignatureStatus,
+    enumName: 'signature_status_enum',
+    default: SignatureStatus.PENDING,
+    nullable: true,
+  })
+  status!: SignatureStatus | null;
 
   @Column({ nullable: true })
   statusTimeStamp!: string | null;
