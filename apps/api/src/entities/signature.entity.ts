@@ -53,7 +53,7 @@ export class SignatureEntity {
   })
   status!: SignatureStatus | null;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   statusTimeStamp!: string | null;
 
   @ManyToOne(() => ProjectEntity, { onDelete: 'CASCADE' })
